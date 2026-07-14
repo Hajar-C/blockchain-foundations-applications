@@ -2,7 +2,6 @@
 
 Petit projet académique analysant et comparant trois articles scientifiques traitant de la sécurité des blockchains, sous des angles complémentaires : détection par IA, attaque de minage exploitant les preuves à divulgation nulle de connaissance (ZKP), et le résultat fondateur du *selfish mining*.
 
-**Auteurs :** Nirmine Hiani, Hajar Chahbi, Othmane Hrimat
 
 ## Contenu du dépôt
 
@@ -43,3 +42,5 @@ La sécurité des blockchains ne repose pas uniquement sur la cryptographie : el
 ---
 
 *Projet réalisé durant l'année académique 2025-2026.*
+
+**Auteurs :** Nirmine Hiani, Hajar Chahbi, Othmane Hrimat
