@@ -1,46 +1,111 @@
-# Analysis and Comparison of Current Research in Blockchain Security
+# Projet Blockchain
 
-Petit projet académique analysant et comparant trois articles scientifiques traitant de la sécurité des blockchains, sous des angles complémentaires : détection par IA, attaque de minage exploitant les preuves à divulgation nulle de connaissance (ZKP), et le résultat fondateur du *selfish mining*.
+Ce dépôt regroupe deux types de travaux réalisés dans le cadre du Master IGOV,
+autour de la blockchain : un projet d'analyse de recherche, et les travaux
+pratiques (TPs) du cours *Blockchain: Foundations & Applications* (Pr. Yahya
+Benkaouz). Les deux sont indépendants l'un de l'autre — ils partagent
+uniquement le thème "blockchain" et ce dépôt comme espace de rangement.
 
+## Structure du dépôt
 
-## Contenu du dépôt
+```
+projet blockchain/
+├── README.md
+├── projet/                <- projet académique : analyse d'articles de recherche
+│   ├── README.md
+│   ├── blockchain rapport.pdf
+│   ├── ppt blockchain.pdf
+│   └── (3 PDFs des articles sources)
+└── labs/                  <- TPs du cours (chaque sous-dossier garde son propre README)
+    ├── lab1-hash-signatures/
+    ├── lab2-consensus/
+    └── lab3-utxo/
+```
 
-| Fichier | Description |
-|---|---|
-| `blockchain rapport.pdf` | Rapport d'analyse complet (synthèse, comparaison, tendances, questions ouvertes) |
-| `ppt blockchain.pdf` | Support de présentation du projet |
-| `Generative Adversarial Networks for Cyber Threat Hunting inEthereum Blockchain.pdf` | Article 1 (source) |
-| `Mining Attack with Zero Knowledge in the Blockchain.pdf` | Article 2 (source) |
-| `Majority Is Not Enough- Bitcoin mining isvulnerable.pdf` | Article 3 (source) |
+### `projet/` — Analyse et comparaison d'articles de recherche
 
-## Résumé
+Rapport comparant trois articles scientifiques sur la sécurité des
+blockchains (détection par IA/GAN, attaque de minage par ZKP, et le
+*selfish mining* fondateur d'Eyal & Sirer). Contient le rapport complet, le
+support de présentation, et les 3 articles sources en PDF.
 
-Malgré des fondations cryptographiques solides, les blockchains restent vulnérables à des attaques qui exploitent les incitations économiques, la dynamique du réseau et les comportements adverses. Ce rapport analyse trois articles scientifiques :
+Voir [projet/README.md](projet/README.md) pour le détail (résumé, comparaison,
+conclusion, références).
 
-1. **Generative Adversarial Networks for Cyber Threat Hunting in Ethereum Blockchain** (Rabieinejad et al., 2023) — un pipeline de détection en deux phases combinant un GAN conditionnel (CTGAN) pour générer des transactions Ethereum adverses réalistes, et un réseau Bi-LSTM pour les détecter. Précision de détection rapportée : jusqu'à 99,98 %.
+### `labs/` — Travaux pratiques du cours
 
-2. **Mining Attack with Zero Knowledge in the Blockchain** (Yu et al., ASIA CCS 2025) — introduit le *Partial Selfish Mining* (PSM) et sa version avancée (A-PSM), où l'attaquant dévoile partiellement des blocs et utilise des preuves à divulgation nulle de connaissance (ZKP) pour attirer des mineurs rationnels et augmenter sa puissance de minage effective.
+Master IGOV, Pr. Yahya Benkaouz — *Blockchain: Foundations & Applications*.
+Trois TPs indépendants, chacun avec son sujet (PDF) et son code source.
 
-3. **Majority Is Not Enough: Bitcoin Mining Is Vulnerable** (Eyal & Sirer, 2013) — l'article fondateur démontrant que le *selfish mining* peut être rentable dès 25 à 33 % de la puissance de calcul totale, remettant en cause le seuil de sécurité supposé de 50 %, et proposant une modification du protocole pour l'atténuer.
+#### lab1-hash-signatures/ — Lab 1: Hash Functions and Signature Schemes
 
-## Comparaison
+Sujet : [sujet_lab1_hash_signatures.pdf](labs/lab1-hash-signatures/sujet_lab1_hash_signatures.pdf)
+— code : [src/](labs/lab1-hash-signatures/src/) (Java)
 
-- **Article 1** agit au niveau des données/transactions (détection par apprentissage automatique).
-- **Articles 2 et 3** agissent au niveau du protocole et des incitations économiques (modélisation par théorie des jeux).
-- Ensemble, ils montrent que la sécurité blockchain doit être pensée à plusieurs niveaux : réduire la rentabilité des déviations au niveau du protocole, tout en surveillant les comportements anormaux au niveau applicatif.
+Implémentation et étude de plusieurs schémas de signature utilisés en
+blockchain :
 
-## Conclusion
+- **RSA** (`RSALab.java`) — génération de clés 2048 bits, chiffrement/
+  déchiffrement (OAEP-SHA256), signature/vérification (SHA256withRSA).
+- **Client/Serveur RSA** (`Client.java` / `Server.java`) — transfert de
+  fichier chiffré de bout en bout (`message.txt` → `received.txt`).
+- **Client/Serveur + signature** (`ServerSign.java` / `ClientVerify.java`) —
+  le serveur signe un fichier reçu, le client vérifie la signature avec la
+  clé publique.
+- **Lamport Signature** (`LamportSignature.java`) — signature à usage unique
+  basée sur SHA-256 (256 paires de valeurs aléatoires), avec démonstration
+  d'échec de vérification si le message est modifié.
+- **Merkle-Lamport Signature** (`MerkleLamportSignature.java`) — étend
+  Lamport à un usage multiple : N paires de clés Lamport authentifiées par
+  un arbre de Merkle, dont la racine sert de clé publique maîtresse.
+- **Blind Signature RSA** (`BlindSignature.java`) — signature aveugle
+  (aveuglement / signature / désaveuglement) permettant à une autorité de
+  signer un message sans en connaître le contenu (vote électronique, cash
+  numérique).
 
-La sécurité des blockchains ne repose pas uniquement sur la cryptographie : elle dépend aussi des incitations économiques, du comportement du réseau, et de la capacité d'adaptation des attaquants. Les travaux futurs devraient combiner la refonte des protocoles avec une surveillance robuste basée sur l'IA, et analyser les nouveaux outils cryptographiques (comme les ZKP) sous des modèles d'incitation réalistes.
+Voir [labs/lab1-hash-signatures/README.md](labs/lab1-hash-signatures/README.md)
+pour les instructions de compilation/exécution détaillées.
 
-## Références
+#### lab2-consensus/ — Lab 2: Consensus Mechanisms
 
-1. E. Rabieinejad, A. Yazdinejad, R. M. Parizi, A. Dehghantanha, *Generative Adversarial Networks for Cyber Threat Hunting in Ethereum Blockchain*, Distributed Ledger Technologies: Research and Practice, 2023.
-2. J. Yu, S. Gao, R. Song, Z. Cai, B. Xiao, *Mining Attack with Zero Knowledge in the Blockchain*, Proceedings of ASIA CCS, 2025.
-3. I. Eyal, E. G. Sirer, *Majority Is Not Enough: Bitcoin Mining Is Vulnerable*, arXiv:1311.0243, 2013.
+Sujet : [sujet_lab2_consensus.pdf](labs/lab2-consensus/sujet_lab2_consensus.pdf)
+— code : [src/](labs/lab2-consensus/src/) (Java) + `plot_pow.py`
 
----
+Implémentation de deux mécanismes de consensus :
 
-*Projet réalisé durant l'année académique 2025-2026.*
+- **Proof of Work** (`ProofOfWork.java`, `PowBench.java`, `PowResult.java`) —
+  minage par recherche d'un hash SHA-256 avec un nombre donné de zéros
+  hexadécimaux en tête, avec benchmark de la difficulté. `plot_pow.py` génère
+  les graphes de temps de minage en fonction de la difficulté.
+- **Paxos** (`PaxosNode.java`, `PaxosCluster.java`, `PaxosMessageTypes.java`,
+  `BankService.java`, `CryptoUtil.java`) — consensus Paxos basique avec 3
+  serveurs (A/B/C) et 2 clients, appliqué à un journal de transactions
+  bancaires.
 
-**Auteurs :** Nirmine Hiani, Hajar Chahbi, Othmane Hrimat
+Voir [labs/lab2-consensus/README.md](labs/lab2-consensus/README.md) pour les
+commandes de compilation et d'exécution (`Main pow` / `Main paxos`).
+
+#### lab3-utxo/ — Lab 3: Blockchain and UTXO Transactions
+
+Code : [src/](labs/lab3-utxo/src/) (Python) + `report.ipynb` + `messages.txt`
+
+Implémentation d'une blockchain simplifiée en deux parties :
+
+- **Blockchain à blocs + Proof-of-Work** — chaque bloc stocke la
+  concaténation de deux messages, sécurisé par un minage SHA-256.
+- **Système de transactions UTXO** — validation des transactions par le
+  modèle UTXO et signatures numériques (`blockchain_utxo.py`).
+- `main.py` exécute le programme (`python -m src.main --messages-file
+  messages.txt --difficulty 4`), `report.ipynb` est un notebook d'exploration
+  personnel.
+
+Voir [labs/lab3-utxo/README.md](labs/lab3-utxo/README.md) pour le détail
+(prérequis : Python 3.12+, librairie `cryptography`).
+
+## Pourquoi cette organisation
+
+Le dépôt git `Analyse-Articles-Blockchain-Security` était à l'origine dédié
+uniquement au projet d'analyse d'articles (dossier `projet/`). Les 3 TPs ont
+été ajoutés dans le même dossier local par commodité ; ils sont rangés dans
+`labs/` pour ne pas mélanger deux livrables distincts, tout en restant dans le
+même dépôt.

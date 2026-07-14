@@ -1,0 +1,7 @@
+Transaction createdT
+his is Lab3
+User sends data
+System validates data
+Data stored in block
+Block added to blockchain
+Blockchain verified
